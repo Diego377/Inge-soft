@@ -1,0 +1,177 @@
+#pragma once
+#include "Libro.h"
+#include <fstream>
+#include <ctime>
+#define tam 2000
+class Libreria
+{
+private:
+	Libro** arr;
+
+public:
+	Libreria() {
+		arr = new Libro * [2000];
+	}
+	Libro** getArr() {
+		return arr;
+	}
+	void mostrar(Libro* arr[tam]) {
+		for (int i = 0; i <= 999; i++)
+		{
+			arr[i]->mostrar();
+		}
+	}
+	void convArchi() {
+		ifstream archivo("Lista1000Libros.txt");
+		ofstream archi2("ListaArreglada.txt");
+		char caract;
+		if (archivo.fail())
+			cerr << "Error al abrir el archivo de datos" << endl;
+		else
+			while (!archivo.eof())
+			{
+				caract = archivo.get();
+				archi2 << caract;
+				if (caract == '-' || caract == '/' || caract == '.')
+				{
+					caract = archivo.get(); // Para llenar el espacio que viene luego del caracter especial
+					archi2 << endl;
+				}
+			}
+		archivo.close();
+		archi2.close();
+	}
+	Libro** guardarArr(Libro* arr[tam]) {
+		ifstream archivo("ListaArreglada.txt");
+		string num, titulo, autor, espacio;
+
+		if (archivo.fail())
+			cerr << "Error al abrir el archivo de datos" << endl;
+		else
+			while (!archivo.eof())
+			{
+				for (int p = 0; p <= 1000; p++)
+				{
+					getline(archivo, num);
+					getline(archivo, titulo);
+					getline(archivo, autor);
+					getline(archivo, espacio);
+					Libro* libro = new Libro(num, titulo, autor);
+					arr[p] = libro;
+				}
+			}
+		return arr;
+	}
+	void swap(Libro* a, Libro* b) {
+		Libro tmp = *a;
+		*a = *b;
+		*b = tmp;
+	}
+
+	Libro** bubbleSort(Libro* arr[tam])
+	{
+		int i, j,n = 1000;
+		for (i = 0; i < n - 1; i++)
+		{
+			for (j = 0; j < n - i - 1; j++)
+			{
+				if (arr[j]->getTitulo() < arr[j+1]->getTitulo())
+				{
+					swap(arr[j], arr[j + 1]);
+				}
+			}
+		}
+		return arr;
+	} 
+
+	int particion(Libro* arreglo[tam], int izquierda, int derecha) {
+		string pivote = arreglo[izquierda]->getAutor();
+		while (1) {
+			while (arreglo[izquierda]->getAutor() < pivote) {
+				izquierda++;
+			}
+			while (arreglo[derecha]->getAutor() > pivote) {
+				derecha--;
+			}
+			if (izquierda >= derecha) {
+				return derecha;
+			}
+			else {
+				swap(arreglo[izquierda], arreglo[derecha]);
+				izquierda++;
+				derecha--;
+			}
+		}
+	}
+
+	Libro** quicksort(Libro* arr[tam], int izquierda, int derecha) {
+		if (izquierda < derecha) {
+			int indiceParticion = particion(arr, izquierda, derecha);
+			quicksort(arr, izquierda, indiceParticion);
+			quicksort(arr, indiceParticion + 1, derecha);
+		}
+		return arr;
+	}
+
+	void deleteArr() {
+		delete arr[tam];
+	}
+
+	int secuencial(string busqueda, Libro* arr[tam])
+	{
+		int resp = -1,pos;
+		for (int i = 0; i < 1000; i++)
+		{
+			if (busqueda == arr[i]->getTitulo())
+			{
+				resp = 1;
+				pos = i;
+			}
+		}
+		return resp;
+	}
+	int busquedaBinaria(Libro* arr[tam], string busqueda)
+	{
+		int Iarriba = 999,Iabajo = 0,Icentro,resp = -1,pos;
+		while (Iabajo <= Iarriba && resp != 1)
+		{
+			Icentro = (Iarriba + Iabajo) / 2;
+			if (arr[Icentro]->getTitulo() == busqueda)
+			{
+				resp = 1;
+				pos = Icentro;
+			}
+			else
+				if (busqueda < arr[Icentro]->getTitulo())
+					Iarriba = Icentro - 1;
+				else
+					Iabajo = Icentro + 1;
+		}
+		return resp;
+	}
+};
+
+#include <iostream>
+#include "Libreria.h"
+
+int main()
+{
+    int resp, resp2;
+    Libreria* l = new Libreria();
+    l->guardarArr(l->getArr());
+    //l->bubbleSort(l->getArr());
+    l->quicksort(l->getArr(), 0, 1000);
+
+    unsigned t0, t1,t2, t3;
+    t0 = clock(); //INICIO TIMER
+
+    for(int i =0 ; i<100;i++)
+    resp = l->busquedaBinaria(l->getArr(), " Estructura de datos ");
+    cout << resp << endl;
+    
+    t1 = clock();
+    double time = (double(t1 - t0) / CLOCKS_PER_SEC);
+    cout << "Execution Time binary: " << time << endl; //FINAL TIMER
+
+    return 0;
+}
