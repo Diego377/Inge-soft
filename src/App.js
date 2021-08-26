@@ -23,5 +23,22 @@ form.addEventListener("submit", (event) => {
             gen = "Joven ";
         }
     }
-  alert("Hola " + gen + nombre.value);
+
+    var hoy = new Date();
+    var hora = hoy.getHours();
+
+    var tiempo = "Buenos dias, ";
+    if(hora > 12 && hora < 19)
+    {
+        tiempo = "Buenas tardes, ";
+    }
+    else{
+        if(hora >= 19 )
+        {
+            tiempo = "Buenas noches, ";
+        }
+    }
+
+
+  alert("Hola, " + tiempo +  gen + nombre.value);
 });
