@@ -1,15 +1,31 @@
 const nombre = document.querySelector("#nombre-input");
 const form = document.querySelector("#saludador-form");
-const genero = document.querySelector("#genero-input");
 const edad = document.querySelector("#edad-input");
-const idioma = document.querySelector("#idioma-input")
 
 form.addEventListener("submit", (event) => {
 
-    if(idioma.value == 'E'){
+    if(document.getElementById('M').checked)
+    {
+        genero = 'M';
+    }
+    if(document.getElementById('F').checked)
+    {
+        genero = 'F';
+    }
+
+    if(document.getElementById('I').checked)
+    {
+        idioma = 'I';
+    }
+    if(document.getElementById('E').checked)
+    {
+        idioma = 'E';
+    }
+
+    if(idioma == 'E'){
         var gen = "Señor ";
 
-        if(genero.value == 'F')
+        if(genero == 'F')
         {
             if(edad.value > 40)
             {
@@ -19,7 +35,7 @@ form.addEventListener("submit", (event) => {
                 gen = "Señorita "
             }
         }
-        if(genero.value == 'M')
+        if(genero == 'M')
         {
             if(edad.value < 40)
             {
@@ -43,10 +59,10 @@ form.addEventListener("submit", (event) => {
         }
         alert("Hola, " + tiempo +  gen + nombre.value);
     }
-    if(idioma.value == 'I'){
+    if(idioma == 'I'){
         var gen = "Mister ";
 
-        if(genero.value == 'F')
+        if(genero == 'F')
         {
             if(edad.value > 40)
             {
@@ -56,7 +72,7 @@ form.addEventListener("submit", (event) => {
                 gen = "Miss "
             }
         }
-        if(genero.value == 'M')
+        if(genero == 'M')
         {
             if(edad.value < 40)
             {

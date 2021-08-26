@@ -5,16 +5,37 @@
       <input type="text" id="nombre-input" />
       <br>
       <br>
-      <label for="genero-input">Tu genero M(masculino) F(Femenino):</label>
-      <input type="text" id="genero-input" />
+      <p>Selecciona tu genero:</p>
+
+      <div>
+        <input type="radio" id="M" name="genero" value="M"
+              checked>
+        <label for="M">Masculino</label>
+      </div>
+
+      <div>
+        <input type="radio" id="F" name="genero" value="F">
+        <label for="F">Femenino</label>
+      </div>
       <br>
       <br>
       <label for="edad-input">Tu edad:</label>
       <input type="text" id="edad-input" />
       <br>
       <br>
-      <label for="idioma-input">Elige el idioma E (español) I (ingles):</label>
-      <input type="text" id="idioma-input" />
+      
+      <p>Elige el idioma (ingles o español) :</p>
+
+      <div>
+        <input type="radio" id="I" name="idioma" value="I"
+              checked>
+        <label for="I">Ingles</label>
+      </div>
+
+      <div>
+        <input type="radio" id="E" name="idioma" value="E">
+        <label for="E">Español</label>
+      </div>
       <input type="submit" value="Saludar" />
     </form>
     <script src="./src/index.js"></script>
